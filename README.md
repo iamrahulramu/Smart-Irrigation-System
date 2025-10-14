@@ -42,7 +42,7 @@ This section lists the necessary hardware components used in the project, along 
 | YL-83 Sensor | To detect rain or water content in soil |
 | Relay Module | To control the miniature water pump |
 | Miniature Water Pump | To water plants |
-| Jumper Wires, Breadboard, Power Supply | Circuit connections |
+| Jumper Wires, Breadboard, Power Supply | To make circuit connections |
 
 ---
 
