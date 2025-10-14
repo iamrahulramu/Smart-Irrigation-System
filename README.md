@@ -76,8 +76,22 @@ In order to set up the system proposed in this project, follow these steps:
    - Go to ``Apps`` → ``MATLAB Analysis``
    - Paste code from [ThingSpeak/smart_irrigation_thingspeak.m](ThingSpeak/smart_irrigation_thingspeak.m)
    - Schedule it using **TimeControl** 
-3. Connect the sensors to Raspberry Pi according to the pin setup in the code (from [Raspberry Pi/smart_irrigation_rpi.py](Raspberry%20Pi/smart_irrigation_rpi.py)).
-4. Run the Raspberry Pi script
+3. Connect the sensors to Raspberry Pi according to the pin setup described below:
+  
+    | Raspberry Pi Pin (BCM) | Connected Component | Component Pin |
+    |-------------------------|---------------------|----------------|
+    | 4 (GPIO 4)              | DHT11 Sensor        | Data           |
+    | 5V                      |                     | VCC            | 
+    | GND                     |                     | GND            |
+    | 21 (GPIO 21)            | YL-83 Rain Sensor   | Digital OUT    | 
+    | 5V                      |                     | VCC            | 
+    | GND                     |                     | GND            | 
+    | 26 (GPIO 26)            | Relay Module        | IN             | 
+    | 5V                      |                     | VCC            | 
+    | GND                     |                     | GND            | 
+    | Relay Output (NO/COM)   | Water Pump          | + / -          | 
+
+1. Run the Raspberry Pi script
    ```bash
    python3 smart_irrigation_rpi.py
    ```
