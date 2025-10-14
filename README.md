@@ -224,4 +224,4 @@ This project is licensed under the terms specified in the ``LICENSE`` file **(MI
 ---
 
 ## Acknowledgements
-This project was a collaborative effort. Special thanks to fellow contributors, Preethalakshmi Kumaran and Prashob Saji James, for their valuable contributions.
+This project was a collaborative effort developed between March 2023 and May 2023. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions.
