@@ -16,11 +16,11 @@ GPIO.setup(channel, GPIO.IN)
 GPIO.setup(channel1, GPIO.OUT, initial=GPIO.LOW)
 previous_feed_length = 0
 
-# Enter your API key here
-myAPI = 'YOUR_WRITE_API_KEY'  # Replace with your ThingSpeak Write API key
+# Enter the Write API key here
+writeAPI = 'INSERT_WRITE_API_KEY' 
 
-# URL where we will send the data
-baseURL = 'https://api.thingspeak.com/update?api_key=%s' % myAPI
+# URL where the data will be sent
+baseURL = 'https://api.thingspeak.com/update?api_key=%s' % writeAPI
 
 # Reading data from the DHT11 sensor and storing temperature and humidity levels
 def DHT11_data():
@@ -67,7 +67,7 @@ while True:
 
         # Receiving control data from ThingSpeak
         response = requests.get(
-            "https://api.thingspeak.com/channels/YOUR_CHANNEL_ID/fields/3?api_key=YOUR_READ_API_KEY"
+            "https://api.thingspeak.com/channels/INSERT_CHANNEL_ID/fields/3?api_key=INSERT_READ_API_KEY"
         )
         data_dict = response.json()
         current_feed_length = len(data_dict['feeds'])

@@ -12,10 +12,10 @@ This IoT-based system automates the irrigation process in agriculture using a Ra
   - [Software Requirements](#software-requirements)
     - [On Raspberry Pi](#on-raspberry-pi)
     - [On ThingSpeak Cloud](#on-thingspeak-cloud)
+  - [Implementation Steps](#implementation-steps)
   - [Implementation Description](#implementation-description)
     - [Raspberry Pi Implementation](#raspberry-pi-implementation)
     - [ThingSpeak MATLAB Implementation](#thingspeak-matlab-implementation)
-  - [Implementation Steps](#implementation-steps)
   - [Future Improvements](#future-improvements)
   - [License](#license)
   - [Acknowledgements](#acknowledgements)
@@ -47,7 +47,7 @@ This section lists the necessary hardware components used in the project, along 
 ---
 
 ## Software Requirements
-To set up and run this project, ensure you have the following software tools and libraries installed:
+To set up and run this project, the following software tools and libraries must be installed:
 
 ### On Raspberry Pi
 - **Operating System:** Raspberry Pi OS / Raspbian
@@ -63,6 +63,24 @@ To set up and run this project, ensure you have the following software tools and
     - **Data Collection Channel** - to receive (sensor) data from the Raspberry Pi board 
     - **Update/Control Channel** - to store the sensor data and send control signals or alerts
 
+---
+
+## Implementation Steps
+In order to set up the system proposed in this project, follow these steps:
+1. Set Up ThingSpeak Channels
+   - Create two channels:
+     - **Data Collection Channel** (Temperature, Humidity, Rain)
+     - **Update/Control Channel** (Water Pump Control and Alerts)
+   - Note down the ``Read API Key`` and the ``Write API Key``.
+2. Deploy the MATLAB code on ThingSpeak
+   - Go to ``Apps`` → ``MATLAB Analysis``
+   - Paste code from [ThingSpeak/smart_irrigation_thingspeak.m](ThingSpeak/smart_irrigation_thingspeak.m)
+   - Schedule it using **TimeControl** 
+3. Connect the sensors to Raspberry Pi according to the pin setup in the code (from [Raspberry Pi/smart_irrigation_rpi.py](Raspberry%20Pi/smart_irrigation_rpi.py)).
+4. Run the Raspberry Pi script
+   ```bash
+   python3 smart_irrigation_rpi.py
+   ```
 ---
 
 ## Implementation Description
@@ -97,8 +115,8 @@ The DHT11 sensor provides temperature and humidity readings. The ``read_retry()`
 
 **Sending Data to ThingSpeak**
 ```python
-myAPI = 'YOUR_API_KEY'
-baseURL = f'https://api.thingspeak.com/update?api_key={myAPI}'
+writeAPI = 'INSERT_WRITE_API_KEY'
+baseURL = f'https://api.thingspeak.com/update?api_key={writeAPI}'
 conn = urlopen(baseURL + f'&field1={temperature}&field2={humidity}')
 ```
 The sensor data is uploaded to ThingSpeak, with each field corresponding to a specific parameter (temperature, humidity).
@@ -116,7 +134,7 @@ The YL-83 rain sensor detects the presence of rain, indirectly indicating soil m
 
 **Water Pump Control Based on ThingSpeak Feedback**
 ```python
-response = requests.get("https://api.thingspeak.com/channels/YOUR_CHANNEL_ID/fields/3?api_key=YOUR_READ_API_KEY")
+response = requests.get("https://api.thingspeak.com/channels/INSERT_CHANNEL_ID/fields/3?api_key=INSERT_READ_API_KEY")
 data_dict = response.json()
 latest_feed = data_dict['feeds'][-1]
 control_value = latest_feed['field3']
@@ -178,24 +196,6 @@ The statistical measures computed from raw sensor readings and the control flag 
 
 ---
 
-## Implementation Steps
-In order to set up the system proposed in this project, follow these steps:
-1. Set Up ThingSpeak Channels
-   - Create two channels:
-     - **Data Collection Channel** (Temperature, Humidity, Rain)
-     - **Update/Control Channel** (Water Pump Control and Alerts)
-   - Note down the ``Read API Key`` and the ``Write API Key``.
-2. Deploy the MATLAB code on ThingSpeak
-   - Go to ``Apps`` → ``MATLAB Analysis``
-   - Paste code from [ThingSpeak/smart_irrigation_thingspeak.m](ThingSpeak/smart_irrigation_thingspeak.m)
-   - Schedule it using **TimeControl** 
-3. Connect your sensors to Raspberry Pi according to the pin setup in the code.
-4. Run the Raspberry Pi script
-   ```bash
-   python3 smart_irrigation_rpi.py
-   ```
----
-
 ## Future Improvements
 While the current implementation effectively automates irrigation based on environmental conditions, several improvements can further enhance its efficiency and scalability:
 - **Mobile Application or Dashboard:** Develop a user interface for real-time data visualization and manual override of irrigation.
@@ -210,7 +210,7 @@ This project is licensed under the terms specified in the ``LICENSE`` file **(MI
 ---
 
 ## Acknowledgements
-This project was a collaborative effort. Special thanks to my teammates Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions.
+This project was a collaborative effort. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions.
 
 ---
 <p align="center">Empowering Agriculture through IoT and Automation</p>
