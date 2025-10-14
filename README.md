@@ -224,7 +224,4 @@ This project is licensed under the terms specified in the ``LICENSE`` file **(MI
 ---
 
 ## Acknowledgements
-This project was a collaborative effort. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions.
-
----
-<p align="center">Empowering Agriculture through IoT and Automation</p>
+This project was a collaborative effort. Special thanks to fellow contributors, Preethalakshmi Kumaran and Prashob Saji James, for their valuable contributions.
