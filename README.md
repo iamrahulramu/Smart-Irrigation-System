@@ -83,7 +83,7 @@ In order to set up the system proposed in this project, follow these steps:
     | 4 (GPIO 4)              | DHT11 Sensor        | Data           |
     | 5V                      |                     | VCC            | 
     | GND                     |                     | GND            |
-    | 21 (GPIO 21)            | YL-83 Rain Sensor   | Digital OUT    | 
+    | 21 (GPIO 21)            | YL-83 Sensor        | Digital OUT    | 
     | 5V                      |                     | VCC            | 
     | GND                     |                     | GND            | 
     | 26 (GPIO 26)            | Relay Module        | IN             | 
