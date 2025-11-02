@@ -24,11 +24,11 @@ This IoT-based system automates the irrigation process in agriculture using a Ra
 
 ## Project Overview
 This project aims to develop a system to automate the irrigation process based on real-time environmental data, intended to reduce manual effort and water wastage. The system performs the following actions:
-- Collects temperature, humidity, and rainfall data through sensors
-- Sends this data to the ThingSpeak Cloud
-- Analyzes decision conditions based on sensor data using MATLAB code on ThingSpeak
-- Automatically activates a miniature water pump when soil moisture is low and the ambient temperature is high
-- Additionally, sends alerts to the user whenever irrigation is initiated
+- Collects temperature, humidity, and rainfall data through sensors.
+- Sends this data to the ThingSpeak Cloud.
+- Analyzes decision conditions based on sensor data using MATLAB code on ThingSpeak.
+- Automatically activates a miniature water pump when soil moisture is low and the ambient temperature is high.
+- Additionally, sends alerts to the user whenever irrigation is initiated.
 
 ---
 
@@ -60,8 +60,8 @@ To set up and run this project, the following software tools and libraries must 
 ### On ThingSpeak Cloud
 - ThingSpeak Account
 - Two ThingSpeak Channels:
-    - **Data Collection Channel** - to receive (sensor) data from the Raspberry Pi board 
-    - **Update/Control Channel** - to store the sensor data and send control signals or alerts
+    - **Data Collection Channel** - to receive (sensor) data from the Raspberry Pi board. 
+    - **Update/Control Channel** - to store the sensor data and send control signals or alerts.
 
 ---
 
@@ -69,13 +69,13 @@ To set up and run this project, the following software tools and libraries must 
 In order to set up the system proposed in this project, follow these steps:
 1. Set Up ThingSpeak Channels
    - Create two channels:
-     - **Data Collection Channel** (Temperature, Humidity, Rain)
-     - **Update/Control Channel** (Water Pump Control and Alerts)
+     - **Data Collection Channel** (Temperature, Humidity, Rain).
+     - **Update/Control Channel** (Water Pump Control and Alerts).
    - Note down the ``Read API Key`` and the ``Write API Key``.
 2. Deploy the MATLAB code on ThingSpeak
-   - Go to ``Apps`` → ``MATLAB Analysis``
-   - Paste code from [ThingSpeak/smart_irrigation_thingspeak.m](ThingSpeak/smart_irrigation_thingspeak.m)
-   - Schedule it using **TimeControl** 
+   - Go to ``Apps`` → ``MATLAB Analysis``.
+   - Paste code from [ThingSpeak/smart_irrigation_thingspeak.m](ThingSpeak/smart_irrigation_thingspeak.m).
+   - Schedule it using **TimeControl**.
 3. Connect the sensors to Raspberry Pi according to the pin setup described below:
   
     | Raspberry Pi Pin (BCM) | Connected Component | Component Pin |
@@ -105,9 +105,9 @@ This section provides a brief description of the source code implemented on the 
 **Script:** [Raspberry Pi/smart_irrigation_rpi.py](Raspberry%20Pi/smart_irrigation_rpi.py)
 
 The Raspberry Pi script performs the following actions:
-- Reading environmental data from the DHT11 and YL-83 sensors  
-- Sending real-time data to the ThingSpeak Cloud
-- Receiving control signals from ThingSpeak to operate the miniature water pump through a relay component
+- Reading environmental data from the DHT11 and YL-83 sensors.  
+- Sending real-time data to the ThingSpeak Cloud.
+- Receiving control signals from ThingSpeak to operate the miniature water pump through a relay component.
 
 **GPIO Setup**
 ```python
@@ -218,10 +218,10 @@ While the current implementation effectively automates irrigation based on envir
 
 ---
 
-## License
-This project is licensed under the terms specified in the ``LICENSE`` file **(MIT License)**
+## Acknowledgements
+This project was a collaborative effort developed between March 2023 and May 2023. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions.
 
 ---
 
-## Acknowledgements
-This project was a collaborative effort developed between March 2023 and May 2023. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions.
+## License
+This project is licensed under the terms specified in the ``LICENSE`` file **(MIT License)**.
