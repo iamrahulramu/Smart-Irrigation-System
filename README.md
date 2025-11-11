@@ -224,4 +224,4 @@ This project was a collaborative effort developed between March 2023 and May 202
 ---
 
 ## License
-This project is licensed under the terms specified in the ``LICENSE`` file **(MIT License)**.
+This project is licensed under the terms specified in the [LICENSE](LICENSE) file **(MIT License)**.
