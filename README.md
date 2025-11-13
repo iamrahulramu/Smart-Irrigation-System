@@ -16,8 +16,8 @@ This IoT-based system automates the irrigation process in agriculture using a Ra
   - [Raspberry Pi Implementation](#raspberry-pi-implementation)
   - [ThingSpeak MATLAB Implementation](#thingspeak-matlab-implementation)
 - [Future Improvements](#future-improvements)
-- [License](#license)
 - [Acknowledgements](#acknowledgements)
+- [License](#license)
 
 ---
 
@@ -111,7 +111,7 @@ The Raspberry Pi script performs the following actions:
 - Sending real-time data to the ThingSpeak Cloud.
 - Receiving control signals from ThingSpeak to operate the miniature water pump through a relay component.
 
-**GPIO Setup**
+**(A) GPIO Setup**
 ```python
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -120,7 +120,7 @@ GPIO.setup(26, GPIO.OUT)
 ```
 The GPIO pins are initialized - pin 21 for the YL-83 sensor input and pin 26 for the miniature water pump control (through a relay module).
 
-**Reading Data From DHT11 Sensor**
+**(B) Reading Data From DHT11 Sensor**
 ```python
 import Adafruit_DHT
 def DHT11_data():
@@ -129,7 +129,7 @@ def DHT11_data():
 ```
 The DHT11 sensor provides temperature and humidity readings. The ``read_retry()`` function ensures stable values even if the first read fails.
 
-**Sending Data to ThingSpeak**
+**(C) Sending Data to ThingSpeak**
 ```python
 writeAPI = 'INSERT_WRITE_API_KEY'
 baseURL = f'https://api.thingspeak.com/update?api_key={writeAPI}'
@@ -137,7 +137,7 @@ conn = urlopen(baseURL + f'&field1={temperature}&field2={humidity}')
 ```
 The sensor data is uploaded to ThingSpeak, with each field corresponding to a specific parameter (temperature, humidity).
 
-**Rain Detection**
+**(D) Rain Detection**
 ```python
 if GPIO.input(channel):
     water_presence = 0
@@ -148,7 +148,7 @@ else:
 ```
 The YL-83 rain sensor detects the presence of rain, indirectly indicating soil moisture levels, and outputs a binary signal representing water detection.
 
-**Water Pump Control Based on ThingSpeak Feedback**
+**(E) Water Pump Control Based on ThingSpeak Feedback**
 ```python
 response = requests.get("https://api.thingspeak.com/channels/INSERT_CHANNEL_ID/fields/3?api_key=INSERT_READ_API_KEY")
 data_dict = response.json()
@@ -171,7 +171,7 @@ If the control flag (``field3``) equals 1, the pump relay is activated; otherwis
 
 This MATLAB script runs on ThingSpeak’s cloud environment. It processes sensor data, calculates key statistics, and sends irrigation alerts when conditions require watering.
 
-**Reading Sensor Data from ThingSpeak**
+**(A) Reading Sensor Data from ThingSpeak**
 ```matlab
 humidity = thingSpeakRead(readChannelID, 'Fields', HumidityFieldID, 'NumMinutes', 1, 'ReadKey', readAPIKey);
 [tempF, timeStamp] = thingSpeakRead(readChannelID, 'Fields', TemperatureFieldID, 'NumMinutes', 1, 'ReadKey', readAPIKey);
@@ -179,7 +179,7 @@ rainData = thingSpeakRead(readChannelID, 'NumMinutes', 1, 'Fields', RainFieldID,
 ```
 The sensor data is retrieved from the ThingSpeak channel over the past few minutes.
 
-**Calculating Statistical Measures from Sensor Data**
+**(B) Calculating Statistical Measures from Sensor Data**
 ```matlab
 avgHumidity = mean(humidity);
 [maxTempF, maxTempIndex] = max(temperature);
@@ -187,7 +187,7 @@ avgHumidity = mean(humidity);
 ```
 The average humidity value along with the maximum and minimum temperature values recorded using the sensors are computed.
 
-**Decision Logic for Initiating Irrigation**
+**(C) Decision Logic for Initiating Irrigation**
 ```matlab
 numRainEvents = size(find(rainData), 1);
 
@@ -203,7 +203,7 @@ The irrigation logic is defined as follows:
 - If rain/moisture level is low and temperature is high, irrigation is initiated.
 - Otherwise, irrigation is not needed.
 
-**Sending Alerts and Updating Control Channel**
+**(D) Sending Alerts and Updating Control Channel**
 ```matlab
 thingSpeakWrite(writeChannelID, 'Fields', [1,2,3], 'Values', {avgHumidity, maxTempF, irrigationStatus}, 'WriteKey', writeAPIKey);
 webwrite(alertUrl, "body", alertBody, "subject", alertSubject, options);
