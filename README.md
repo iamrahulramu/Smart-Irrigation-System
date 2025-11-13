@@ -1,6 +1,7 @@
 # Smart Irrigation System
-
+<p align=justify>
 This IoT-based system automates the irrigation process in agriculture using a Raspberry Pi 4B board, a DHT11 sensor (to measure temperature and humidity levels), and a YL-83 sensor (to detect rainfall). The system monitors real-time data and uploads it to ThingSpeak Cloud (an IoT Analytics Platform), where MATLAB analytics decide whether irrigation should be initiated and send alerts to the user accordingly.
+</p>
 
 ---
 
@@ -89,11 +90,13 @@ In order to set up the system proposed in this project, follow these steps:
     | GND                     |                     | GND            | 
     | Relay Output (NO/COM)   | Water Pump          | + / -          | 
 
-4. Run the [Raspberry Pi/smart_irrigation_rpi.py](Raspberry Pi/smart_irrigation_rpi.py) script on Raspberry Pi
+4. Run the [Raspberry Pi/smart_irrigation_rpi.py](<Raspberry Pi/smart_irrigation_rpi.py>) script on Raspberry Pi
    ```bash
-   python3 Raspberry Pi/smart_irrigation_rpi.py
+   python3 "Raspberry Pi/smart_irrigation_rpi.py"
    ```
+<p align=justify>
 Once the script is executed on the Raspberry Pi, the system will start reading real-time environmental data using the DHT11 and YL-83 sensors. This data will be uploaded to the ThingSpeak Cloud, where the MATLAB analysis evaluates whether irrigation is needed. If environmental conditions indicate watering is necessary, the Raspberry Pi will automatically activate the miniature water pump to irrigate the plants. Simultaneously, alerts will be sent to the user via ThingSpeak. 
+</p>
 
 ---
 
@@ -101,14 +104,12 @@ Once the script is executed on the Raspberry Pi, the system will start reading r
 This section provides a brief description of the source code implemented on the Raspberry Pi and the MATLAB analytics script on ThingSpeak.
 
 ### Raspberry Pi Implementation
-
 **Script:** [Raspberry Pi/smart_irrigation_rpi.py](Raspberry%20Pi/smart_irrigation_rpi.py)
 
 The Raspberry Pi script performs the following actions:
 - Reading environmental data from the DHT11 and YL-83 sensors.  
 - Sending real-time data to the ThingSpeak Cloud.
 - Receiving control signals from ThingSpeak to operate the miniature water pump through a relay component.
-
 
 **GPIO Setup**
 ```python
@@ -119,7 +120,6 @@ GPIO.setup(26, GPIO.OUT)
 ```
 The GPIO pins are initialized - pin 21 for the YL-83 sensor input and pin 26 for the miniature water pump control (through a relay module).
 
-
 **Reading Data From DHT11 Sensor**
 ```python
 import Adafruit_DHT
@@ -129,7 +129,6 @@ def DHT11_data():
 ```
 The DHT11 sensor provides temperature and humidity readings. The ``read_retry()`` function ensures stable values even if the first read fails.
 
-
 **Sending Data to ThingSpeak**
 ```python
 writeAPI = 'INSERT_WRITE_API_KEY'
@@ -137,7 +136,6 @@ baseURL = f'https://api.thingspeak.com/update?api_key={writeAPI}'
 conn = urlopen(baseURL + f'&field1={temperature}&field2={humidity}')
 ```
 The sensor data is uploaded to ThingSpeak, with each field corresponding to a specific parameter (temperature, humidity).
-
 
 **Rain Detection**
 ```python
@@ -149,7 +147,6 @@ else:
     print("Water Detected!")
 ```
 The YL-83 rain sensor detects the presence of rain, indirectly indicating soil moisture levels, and outputs a binary signal representing water detection.
-
 
 **Water Pump Control Based on ThingSpeak Feedback**
 ```python
@@ -170,11 +167,9 @@ If the control flag (``field3``) equals 1, the pump relay is activated; otherwis
 
 
 ### ThingSpeak MATLAB Implementation
-
 **Script:** [ThingSpeak/smart_irrigation_thingspeak.m](ThingSpeak/smart_irrigation_thingspeak.m)
 
 This MATLAB script runs on ThingSpeak’s cloud environment. It processes sensor data, calculates key statistics, and sends irrigation alerts when conditions require watering.
-
 
 **Reading Sensor Data from ThingSpeak**
 ```matlab
@@ -184,7 +179,6 @@ rainData = thingSpeakRead(readChannelID, 'NumMinutes', 1, 'Fields', RainFieldID,
 ```
 The sensor data is retrieved from the ThingSpeak channel over the past few minutes.
 
-
 **Calculating Statistical Measures from Sensor Data**
 ```matlab
 avgHumidity = mean(humidity);
@@ -192,7 +186,6 @@ avgHumidity = mean(humidity);
 [minTempF, minTempIndex] = min(temperature);
 ```
 The average humidity value along with the maximum and minimum temperature values recorded using the sensors are computed.
-
 
 **Decision Logic for Initiating Irrigation**
 ```matlab
@@ -209,7 +202,6 @@ end
 The irrigation logic is defined as follows:
 - If rain/moisture level is low and temperature is high, irrigation is initiated.
 - Otherwise, irrigation is not needed.
-
 
 **Sending Alerts and Updating Control Channel**
 ```matlab
@@ -229,7 +221,9 @@ While the current implementation effectively automates irrigation based on envir
 ---
 
 ## Acknowledgements
-This project was submitted as the Mini Project for the course _Internet of Things Laboratory_, offered by the Department of Electronics and Communication Engineering at SSN College of Engineering, Chennai, Tamil Nadu. It was a collaborative effort developed between March 2023 and May 2023. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions. 
+<p align=justify>
+This project was submitted as the Mini Project for the course <i>System Design for IoT Laboratory</i>, offered by the Department of Electronics and Communication Engineering at SSN College of Engineering, Chennai, Tamil Nadu. It was a collaborative effort developed between March 2023 and May 2023. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions. 
+</p>
 
 ---
 
