@@ -1,7 +1,5 @@
 # Smart Irrigation System
-<p align=justify>
 This IoT-based system automates the irrigation process in agriculture using a Raspberry Pi 4B board, a DHT11 sensor (to measure temperature and humidity levels), and a YL-83 sensor (to detect rainfall). The system monitors real-time data and uploads it to ThingSpeak Cloud (an IoT Analytics Platform), where MATLAB analytics decide whether irrigation should be initiated and send alerts to the user accordingly.
-</p>
 
 ---
 
@@ -35,7 +33,7 @@ This project aims to develop a system to automate the irrigation process based o
 This section lists the necessary hardware components used in the project, along with their functionalities.
 
 | Component | Function |
-|------------|-----------|
+|:------------:|:-----------:|
 | Raspberry Pi 4B | Main controller to read sensor data and upload to ThingSpeak |
 | DHT11 Sensor | To measure temperature and humidity levels |
 | YL-83 Sensor | To detect rain or water content in soil |
@@ -78,7 +76,7 @@ In order to set up the system proposed in this project, follow these steps:
 3. Connect the sensors to Raspberry Pi according to the pin setup described below:
   
     | Raspberry Pi Pin (BCM) | Connected Component | Component Pin |
-    |-------------------------|---------------------|----------------|
+    |:-------------------------:|:---------------------:|:----------------:|
     | 4 (GPIO 4)              | DHT11 Sensor        | Data           |
     | 5V                      |                     | VCC            | 
     | GND                     |                     | GND            |
@@ -94,9 +92,7 @@ In order to set up the system proposed in this project, follow these steps:
    ```bash
    python3 "Raspberry Pi/smart_irrigation_rpi.py"
    ```
-<p align=justify>
 Once the script is executed on the Raspberry Pi, the system will start reading real-time environmental data using the DHT11 and YL-83 sensors. This data will be uploaded to the ThingSpeak Cloud, where the MATLAB analysis evaluates whether irrigation is needed. If environmental conditions indicate watering is necessary, the Raspberry Pi will automatically activate the miniature water pump to irrigate the plants. Simultaneously, alerts will be sent to the user via ThingSpeak. 
-</p>
 
 ---
 
@@ -104,7 +100,7 @@ Once the script is executed on the Raspberry Pi, the system will start reading r
 This section provides a brief description of the source code implemented on the Raspberry Pi and the MATLAB analytics script on ThingSpeak.
 
 ### Raspberry Pi Implementation
-**Script:** [Raspberry Pi/smart_irrigation_rpi.py](Raspberry%20Pi/smart_irrigation_rpi.py)
+**Script:** [Raspberry Pi/smart_irrigation_rpi.py](<Raspberry Pi/smart_irrigation_rpi.py>)
 
 The Raspberry Pi script performs the following actions:
 - Reading environmental data from the DHT11 and YL-83 sensors.  
@@ -221,9 +217,7 @@ While the current implementation effectively automates irrigation based on envir
 ---
 
 ## Acknowledgements
-<p align=justify>
-This project was submitted as the Mini Project for the course <i>System Design for IoT Laboratory</i>, offered by the Department of Electronics and Communication Engineering at SSN College of Engineering, Chennai, Tamil Nadu. It was a collaborative effort developed between March 2023 and May 2023. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions. 
-</p>
+This project was submitted as the Mini Project for the course _System Design for IoT Laboratory_, offered by the Department of Electronics and Communication Engineering at SSN College of Engineering, Chennai, Tamil Nadu. It was a collaborative effort developed between March 2023 and May 2023. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions. 
 
 ---
 
