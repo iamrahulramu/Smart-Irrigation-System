@@ -5,20 +5,18 @@ This IoT-based system automates the irrigation process in agriculture using a Ra
 ---
 
 ## Table of Contents
-- [Smart Irrigation System](#smart-irrigation-system)
-  - [Table of Contents](#table-of-contents)
-  - [Project Overview](#project-overview)
-  - [Hardware Components](#hardware-components)
-  - [Software Requirements](#software-requirements)
-    - [On Raspberry Pi](#on-raspberry-pi)
-    - [On ThingSpeak Cloud](#on-thingspeak-cloud)
-  - [Implementation Steps](#implementation-steps)
-  - [Implementation Description](#implementation-description)
-    - [Raspberry Pi Implementation](#raspberry-pi-implementation)
-    - [ThingSpeak MATLAB Implementation](#thingspeak-matlab-implementation)
-  - [Future Improvements](#future-improvements)
-  - [License](#license)
-  - [Acknowledgements](#acknowledgements)
+- [Project Overview](#project-overview)
+- [Hardware Components](#hardware-components)
+- [Software Requirements](#software-requirements)
+  - [On Raspberry Pi](#on-raspberry-pi)
+  - [On ThingSpeak Cloud](#on-thingspeak-cloud)
+- [Implementation Steps](#implementation-steps)
+- [Implementation Description](#implementation-description)
+  - [Raspberry Pi Implementation](#raspberry-pi-implementation)
+  - [ThingSpeak MATLAB Implementation](#thingspeak-matlab-implementation)
+- [Future Improvements](#future-improvements)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
 ---
 
@@ -74,7 +72,7 @@ In order to set up the system proposed in this project, follow these steps:
    - Note down the ``Read API Key`` and the ``Write API Key``.
 2. Deploy the MATLAB code on ThingSpeak
    - Go to ``Apps`` → ``MATLAB Analysis``.
-   - Paste code from [ThingSpeak/smart_irrigation_thingspeak.m](ThingSpeak/smart_irrigation_thingspeak.m).
+   - Paste the code from [ThingSpeak/smart_irrigation_thingspeak.m](ThingSpeak/smart_irrigation_thingspeak.m).
    - Schedule it using **TimeControl**.
 3. Connect the sensors to Raspberry Pi according to the pin setup described below:
   
@@ -91,10 +89,12 @@ In order to set up the system proposed in this project, follow these steps:
     | GND                     |                     | GND            | 
     | Relay Output (NO/COM)   | Water Pump          | + / -          | 
 
-1. Run the Raspberry Pi script
+4. Run the [Raspberry Pi/smart_irrigation_rpi.py](Raspberry Pi/smart_irrigation_rpi.py) script on Raspberry Pi
    ```bash
-   python3 smart_irrigation_rpi.py
+   python3 Raspberry Pi/smart_irrigation_rpi.py
    ```
+Once the script is executed on the Raspberry Pi, the system will start reading real-time environmental data using the DHT11 and YL-83 sensors. This data will be uploaded to the ThingSpeak Cloud, where the MATLAB analysis evaluates whether irrigation is needed. If environmental conditions indicate watering is necessary, the Raspberry Pi will automatically activate the miniature water pump to irrigate the plants. Simultaneously, alerts will be sent to the user via ThingSpeak. 
+
 ---
 
 ## Implementation Description
@@ -109,6 +109,7 @@ The Raspberry Pi script performs the following actions:
 - Sending real-time data to the ThingSpeak Cloud.
 - Receiving control signals from ThingSpeak to operate the miniature water pump through a relay component.
 
+
 **GPIO Setup**
 ```python
 GPIO.setwarnings(False)
@@ -117,6 +118,7 @@ GPIO.setup(21, GPIO.IN)
 GPIO.setup(26, GPIO.OUT)    
 ```
 The GPIO pins are initialized - pin 21 for the YL-83 sensor input and pin 26 for the miniature water pump control (through a relay module).
+
 
 **Reading Data From DHT11 Sensor**
 ```python
@@ -127,6 +129,7 @@ def DHT11_data():
 ```
 The DHT11 sensor provides temperature and humidity readings. The ``read_retry()`` function ensures stable values even if the first read fails.
 
+
 **Sending Data to ThingSpeak**
 ```python
 writeAPI = 'INSERT_WRITE_API_KEY'
@@ -134,6 +137,7 @@ baseURL = f'https://api.thingspeak.com/update?api_key={writeAPI}'
 conn = urlopen(baseURL + f'&field1={temperature}&field2={humidity}')
 ```
 The sensor data is uploaded to ThingSpeak, with each field corresponding to a specific parameter (temperature, humidity).
+
 
 **Rain Detection**
 ```python
@@ -145,6 +149,7 @@ else:
     print("Water Detected!")
 ```
 The YL-83 rain sensor detects the presence of rain, indirectly indicating soil moisture levels, and outputs a binary signal representing water detection.
+
 
 **Water Pump Control Based on ThingSpeak Feedback**
 ```python
@@ -163,11 +168,13 @@ else:
 This logic reads the latest command from ThingSpeak.
 If the control flag (``field3``) equals 1, the pump relay is activated; otherwise, it remains off.
 
+
 ### ThingSpeak MATLAB Implementation
 
 **Script:** [ThingSpeak/smart_irrigation_thingspeak.m](ThingSpeak/smart_irrigation_thingspeak.m)
 
 This MATLAB script runs on ThingSpeak’s cloud environment. It processes sensor data, calculates key statistics, and sends irrigation alerts when conditions require watering.
+
 
 **Reading Sensor Data from ThingSpeak**
 ```matlab
@@ -177,6 +184,7 @@ rainData = thingSpeakRead(readChannelID, 'NumMinutes', 1, 'Fields', RainFieldID,
 ```
 The sensor data is retrieved from the ThingSpeak channel over the past few minutes.
 
+
 **Calculating Statistical Measures from Sensor Data**
 ```matlab
 avgHumidity = mean(humidity);
@@ -184,6 +192,7 @@ avgHumidity = mean(humidity);
 [minTempF, minTempIndex] = min(temperature);
 ```
 The average humidity value along with the maximum and minimum temperature values recorded using the sensors are computed.
+
 
 **Decision Logic for Initiating Irrigation**
 ```matlab
@@ -200,6 +209,7 @@ end
 The irrigation logic is defined as follows:
 - If rain/moisture level is low and temperature is high, irrigation is initiated.
 - Otherwise, irrigation is not needed.
+
 
 **Sending Alerts and Updating Control Channel**
 ```matlab
@@ -219,7 +229,7 @@ While the current implementation effectively automates irrigation based on envir
 ---
 
 ## Acknowledgements
-This project was a collaborative effort developed between March 2023 and May 2023. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions.
+This project was submitted as the Mini Project for the course _Internet of Things Laboratory_, offered by the Department of Electronics and Communication Engineering at SSN College of Engineering, Chennai, Tamil Nadu. It was a collaborative effort developed between March 2023 and May 2023. Special thanks to fellow contributors Preethalakshmi Kumaran and Prashob Saji James for their valuable contributions. 
 
 ---
 
